@@ -28,7 +28,7 @@ public class UserWindow extends JFrame implements ActionListener {
 
     public UserWindow(String status, String pesel) {
         this.pesel = pesel;
-        setTitle("Census[" + this.pesel + ", " + status + "]");
+        setTitle("Census [" + this.pesel + ", " + status + "]");
 
         switch (status) {
             case "Citizen":
@@ -170,12 +170,5 @@ public class UserWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == backupButton) {
             // new DialogBackup();
         }
-    }
-
-    //just to test
-    public static void main(String[] args) {
-        new UserWindow("Admin", "123455678901");
-        new UserWindow("Bureaucrat", "123455678901");
-        new UserWindow("Citizen", "123455678901");
     }
 }

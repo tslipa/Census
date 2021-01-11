@@ -15,7 +15,11 @@ public class App
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("bdisi");
+        session.close();
+
+        Logger logger = new Logger();
+
+        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("bdisi");
         EntityManager em = emf.createEntityManager();
         StoredProcedureQuery query = em.createStoredProcedureQuery("displayYearStats");
         query.registerStoredProcedureParameter("syear", Integer.class, ParameterMode.IN);
@@ -24,7 +28,7 @@ public class App
         query.execute();
 
         Integer result = (Integer) query.getOutputParameterValue("result");
-        System.out.println(result);
+        System.out.println(result);*/
 
         System.out.println( "Hello World!" );
     }
