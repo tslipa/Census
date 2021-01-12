@@ -4,10 +4,12 @@ import bdisi.gui.dialog.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import javax.swing.*;
 
 
 public class UserWindow extends JFrame implements ActionListener {
+    private final Connection connection = null;
     private final String pesel;
 
     private JButton printMyPersonalDataButton;
@@ -142,35 +144,35 @@ public class UserWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // nie da się switcha jak coś
         if (e.getSource() == printMyPersonalDataButton) {
-            // new DialogPrintPersonalData(this.pesel);
+            // new DialogPrintPersonalData(connection, this.pesel);
         } else if (e.getSource() == changePasswordButton) {
-            // new DialogChangePassword(this.pesel);
+            // new DialogChangePassword(connection, this.pesel);
         } else if (e.getSource() == changeAddressButton) {
-            // new DialogChangeAddress(this.pesel);
+            // new DialogChangeAddress(connection, this.pesel);
         } else if (e.getSource() == printPersonalDataButton) {
-            // new DialogPrintPersonalData(this.pesel);
+            // new DialogPrintPersonalData(connection, this.pesel);
         } else if (e.getSource() == addCitizenButton) {
-            // new DialogAddCitizen();
+            // new DialogAddCitizen(connection);
         } else if (e.getSource() == deleteCitizenButton) {
-            // new DialogDeleteCitizen();
+            // new DialogDeleteCitizen(connection);
         } else if (e.getSource() == displayCityStatsButton) {
-            new DialogDisplayCityStats();
+            new DialogDisplayCityStats(connection);
         } else if (e.getSource() == displayGenderStatsButton) {
-            new DialogDisplayGenderStats();
+            new DialogDisplayGenderStats(connection);
         } else if (e.getSource() == displayYearStatsButton) {
-            new DialogDisplayYearStats();
+            new DialogDisplayYearStats(connection);
         } else if (e.getSource()  == displayStatusButton) {
-            new DialogDisplayStatus();
+            new DialogDisplayStatus(connection);
         } else if (e.getSource() == addBureaucratButton) {
-            // new DialogAddBureaucrat();
+            // new DialogAddBureaucrat(connection);
         } else if (e.getSource() == deleteBureaucratButton) {
-            // new DialogDeleteBureaucrat();
+            // new DialogDeleteBureaucrat(connection);
         } else if (e.getSource() == changeStatusButton) {
-            // new DialogChangeStatus();
+            // new DialogChangeStatus(connection);
         } else if (e.getSource() == rollbackButton) {
-            // new DialogRollback();
+            // new DialogRollback(connection);
         } else if (e.getSource() == backupButton) {
-            // new DialogBackup();
+            // new DialogBackup(connection);
         }
     }
 }

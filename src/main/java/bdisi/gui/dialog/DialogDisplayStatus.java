@@ -3,16 +3,21 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.Locale;
 
 public class DialogDisplayStatus extends JDialog implements ActionListener {
+    private final Connection connection;
     private JTextField textField;
 
-    public DialogDisplayStatus() {
+    public DialogDisplayStatus(Connection connection) {
+        this.connection = connection;
+
         initUI();
         initLabel();
         initTextField();
         initButton();
+
         this.setVisible(true);
     }
 
@@ -50,15 +55,27 @@ public class DialogDisplayStatus extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String pesel = textField.getText();
-        //TODO: call a method that checks the pesel
-        if (true /* invalid pesel */) {
-            JOptionPane.showMessageDialog(this, "User with this PESEL number does not exist.");
+
+        if (pesel.length() == 11 && pesel.matches("[0-9]+")) {
+            String status = displayStatus(pesel);
+
+            if (status != null) {
+                JOptionPane.showMessageDialog(this, "User with PESEL number "
+                        + pesel + " is a " + status.toLowerCase(Locale.ROOT) + ".");
+            } else {
+                JOptionPane.showMessageDialog(this, "User with PESEL number "
+                        + pesel + " does not exist.");
+            }
         } else {
-            String status = "Bureaucrat";
-            //TODO: call a method that gets the status
-            JOptionPane.showMessageDialog(this, "User with PESEL number "
-                    + pesel + " is a " + status.toLowerCase(Locale.ROOT) + ".");
+            JOptionPane.showMessageDialog(this, "This PESEL number is invalid.");
         }
+
         this.dispose();
+    }
+
+    private static String displayStatus(String pesel) {
+        String status = "Bureaucrat";
+
+        return status;
     }
 }

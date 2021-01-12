@@ -3,15 +3,20 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class DialogDisplayCityStats extends JDialog implements ActionListener {
+    private final Connection connection;
     private JTextField textField;
 
-    public DialogDisplayCityStats() {
+    public DialogDisplayCityStats(Connection connection) {
+        this.connection = connection;
+
         initUI();
         initLabel();
         initTextField();
         initButton();
+
         this.setVisible(true);
     }
 
@@ -49,9 +54,15 @@ public class DialogDisplayCityStats extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String city = textField.getText();
-        int inhabitants = 0;
-        //TODO: call a method that gets the number of inhabitants
+        int inhabitants = displayCityStats(city);
         JOptionPane.showMessageDialog(this, "City " + city + " has " + inhabitants + " inhabitants.");
+
         this.dispose();
+    }
+
+    private static int displayCityStats(String city) {
+        int inhabitants = 0;
+
+        return inhabitants;
     }
 }

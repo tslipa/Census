@@ -5,15 +5,20 @@ import org.jboss.jandex.Index;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class DialogDisplayYearStats extends JDialog implements ActionListener {
+    private final Connection connection;
     private JTextField textField;
 
-    public DialogDisplayYearStats() {
+    public DialogDisplayYearStats(Connection connection) {
+        this.connection = connection;
+
         initUI();
         initLabel();
         initTextField();
         initButton();
+
         this.setVisible(true);
     }
 
@@ -51,24 +56,27 @@ public class DialogDisplayYearStats extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String text = textField.getText();
-        int year;
 
         try {
-            year = Integer.parseInt(text);
+            int year = Integer.parseInt(text);
 
             if (year < 1900 || year > 2021) {
                 throw new IndexOutOfBoundsException();
             }
+
+            int quantity = displayYearStats(year);
+            JOptionPane.showMessageDialog(this, year + " is the year of birth of " + quantity + " people.");
         } catch (NumberFormatException | IndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(this, "The given year is invalid."
                     + " Year should be a number between 1900 and 2021.");
-            this.dispose();
-            return;
         }
 
-        int quantity = 0;
-        //TODO: call a method that gets the number of inhabitants
-        JOptionPane.showMessageDialog(this, year + " is the year of birth of " + quantity + " people.");
         this.dispose();
+    }
+
+    private static int displayYearStats(int year) {
+        int quantity = 0;
+
+        return quantity;
     }
 }
