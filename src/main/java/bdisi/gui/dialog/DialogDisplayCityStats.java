@@ -60,7 +60,7 @@ public class DialogDisplayCityStats extends JDialog implements ActionListener {
         this.dispose();
     }
 
-    private static int displayCityStats(String city) {
+    private int displayCityStats(String city) {
         int inhabitants = 0;
 
         return inhabitants;

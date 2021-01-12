@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Logger extends JFrame implements ActionListener {
-    private JLabel labelWrongData;
     private JTextField textFieldLogin;
     private JTextField textFieldPassword;
 
@@ -21,7 +20,7 @@ public class Logger extends JFrame implements ActionListener {
 
     private void initUI() {
         setTitle("Census [log in]");
-        setSize(new Dimension(400, 350));
+        setSize(new Dimension(400, 320));
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -41,11 +40,6 @@ public class Logger extends JFrame implements ActionListener {
         JLabel labelPassword = new JLabel("Password");
         labelPassword.setBounds(40, 140, 70, 30);
         this.add(labelPassword);
-
-        labelWrongData = new JLabel("");
-        labelWrongData.setBounds(40, 180, 250, 30);
-        labelWrongData.setForeground(Color.RED.darker());
-        this.add(labelWrongData);
     }
 
     private void initTextFields() {
@@ -63,7 +57,7 @@ public class Logger extends JFrame implements ActionListener {
 
     private void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(150, 230, 100, 50);
+        button.setBounds(150, 200, 100, 50);
         this.add(button);
 
         button.addActionListener(this);
@@ -83,7 +77,7 @@ public class Logger extends JFrame implements ActionListener {
         } else {
             textFieldLogin.setText("");
             textFieldPassword.setText("");
-            labelWrongData.setText("Invalid user login or password. Try again.");
+            JOptionPane.showMessageDialog(this, "Invalid user login or password. Try again.");
         }
     }
 }

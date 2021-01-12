@@ -73,7 +73,7 @@ public class DialogDisplayStatus extends JDialog implements ActionListener {
         this.dispose();
     }
 
-    private static String displayStatus(String pesel) {
+    private String displayStatus(String pesel) {
         String status = "Bureaucrat";
 
         return status;

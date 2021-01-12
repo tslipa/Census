@@ -58,7 +58,7 @@ public class DialogDisplayGenderStats extends JDialog implements ActionListener 
         this.dispose();
     }
 
-    private static int displayGenderStats(String gender) {
+    private int displayGenderStats(String gender) {
         int quantity = 0;
 
         return quantity;

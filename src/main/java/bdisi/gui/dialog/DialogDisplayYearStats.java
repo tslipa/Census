@@ -74,7 +74,7 @@ public class DialogDisplayYearStats extends JDialog implements ActionListener {
         this.dispose();
     }
 
-    private static int displayYearStats(int year) {
+    private int displayYearStats(int year) {
         int quantity = 0;
 
         return quantity;
