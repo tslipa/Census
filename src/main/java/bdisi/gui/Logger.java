@@ -1,11 +1,11 @@
-package bdisi;
+package bdisi.gui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Logger extends JFrame {
+public class Logger extends JFrame implements ActionListener {
     private JLabel labelWrongData;
     private JTextField textFieldLogin;
     private JTextField textFieldPassword;
@@ -57,8 +57,8 @@ public class Logger extends JFrame {
         textFieldPassword.setBounds(140, 140, 200, 30);
         this.add(textFieldPassword);
 
-        textFieldLogin.addActionListener(new LoggerListener());
-        textFieldPassword.addActionListener(new LoggerListener());
+        textFieldLogin.addActionListener(this);
+        textFieldPassword.addActionListener(this);
     }
 
     private void initButton() {
@@ -66,27 +66,24 @@ public class Logger extends JFrame {
         button.setBounds(150, 230, 100, 50);
         this.add(button);
 
-        button.addActionListener(new LoggerListener());
+        button.addActionListener(this);
     }
 
-    private class LoggerListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String login = textFieldLogin.getText();
-            String password = textFieldPassword.getText();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String login = textFieldLogin.getText();
+        String password = textFieldPassword.getText();
 
-            //TODO: Add calls to methods that check if the user exists and if the password is valid.
-            if (true) {
-                //TODO: Add call to method that gets the user's status.
-                String status = "Citizen";
-                Logger.this.dispose();
-                UserWindow window = new UserWindow(status, login);
-            } else {
-                textFieldLogin.setText("");
-                textFieldPassword.setText("");
-                labelWrongData.setText("Invalid user login or password. Try again.");
-            }
-
+        //TODO: Add calls to methods that check if the user exists and if the password is valid.
+        if (true) {
+            //TODO: Add call to method that gets the user's status.
+            String status = "Admin";
+            Logger.this.dispose();
+            UserWindow window = new UserWindow(status, login);
+        } else {
+            textFieldLogin.setText("");
+            textFieldPassword.setText("");
+            labelWrongData.setText("Invalid user login or password. Try again.");
         }
     }
 }

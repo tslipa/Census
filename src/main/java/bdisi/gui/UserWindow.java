@@ -1,4 +1,6 @@
-package bdisi;
+package bdisi.gui;
+
+import bdisi.gui.dialog.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -6,7 +8,7 @@ import javax.swing.*;
 
 
 public class UserWindow extends JFrame implements ActionListener {
-    private String pesel;
+    private final String pesel;
 
     private JButton printMyPersonalDataButton;
     private JButton changePasswordButton;
@@ -152,13 +154,13 @@ public class UserWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == deleteCitizenButton) {
             // new DialogDeleteCitizen();
         } else if (e.getSource() == displayCityStatsButton) {
-            // new DialogDisplayCityStats();
+            new DialogDisplayCityStats();
         } else if (e.getSource() == displayGenderStatsButton) {
-            // new DialogDisplayGenderStats();
+            new DialogDisplayGenderStats();
         } else if (e.getSource() == displayYearStatsButton) {
-            // new DialogDisplayYearStats();
+            new DialogDisplayYearStats();
         } else if (e.getSource()  == displayStatusButton) {
-            // new DialogDisplayStatus();
+            new DialogDisplayStatus();
         } else if (e.getSource() == addBureaucratButton) {
             // new DialogAddBureaucrat();
         } else if (e.getSource() == deleteBureaucratButton) {

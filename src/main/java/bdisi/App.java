@@ -1,9 +1,9 @@
 package bdisi;
 
+import bdisi.gui.Logger;
 import org.hibernate.Session;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Hello world!
@@ -14,8 +14,6 @@ public class App
     public static void main( String[] args )
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
-
-        session.close();
 
         Logger logger = new Logger();
 
@@ -29,6 +27,8 @@ public class App
 
         Integer result = (Integer) query.getOutputParameterValue("result");
         System.out.println(result);*/
+
+        session.close();
 
         System.out.println( "Hello World!" );
     }
