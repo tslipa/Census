@@ -142,19 +142,18 @@ public class UserWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // nie da się switcha jak coś
         if (e.getSource() == printMyPersonalDataButton) {
-            // new DialogPrintPersonalData(connection, this.pesel);
+            new DialogPrintMyPersonalData(connection, this.pesel);
         } else if (e.getSource() == changePasswordButton) {
-            // new DialogChangePassword(connection, this.pesel);
+            new DialogChangePassword(connection, this.pesel);
         } else if (e.getSource() == changeAddressButton) {
-            // new DialogChangeAddress(connection, this.pesel);
+            new DialogChangeAddress(connection, this.pesel);
         } else if (e.getSource() == printPersonalDataButton) {
-            // new DialogPrintPersonalData(connection, this.pesel);
+            new DialogPrintAnyPersonalData(connection);
         } else if (e.getSource() == addCitizenButton) {
             new DialogAddCitizen(connection);
         } else if (e.getSource() == deleteCitizenButton) {
-            // new DialogDeleteCitizen(connection);
+            new DialogDeleteCitizen(connection);
         } else if (e.getSource() == displayCityStatsButton) {
             new DialogDisplayCityStats(connection);
         } else if (e.getSource() == displayGenderStatsButton) {
@@ -166,13 +165,15 @@ public class UserWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == addBureaucratButton) {
             new DialogAddBureaucrat(connection);
         } else if (e.getSource() == deleteBureaucratButton) {
-            // new DialogDeleteBureaucrat(connection);
+            new DialogDeleteBureaucrat(connection);
         } else if (e.getSource() == changeStatusButton) {
-            // new DialogChangeStatus(connection);
+            new DialogChangeStatus(connection);
         } else if (e.getSource() == rollbackButton) {
             // new DialogRollback(connection);
         } else if (e.getSource() == backupButton) {
             // new DialogBackup(connection);
         }
     }
+
+    //TODO: listener close connection
 }
