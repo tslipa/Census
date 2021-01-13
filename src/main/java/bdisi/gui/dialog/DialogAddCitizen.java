@@ -3,7 +3,11 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Locale;
 
 public class DialogAddCitizen extends JDialog implements ActionListener {
     protected final Connection connection;
@@ -15,9 +19,11 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
     protected JTextField textFieldStreet;
     protected JTextField textFieldHouse;
     protected JTextField textFieldFlat;
+    private String status;
 
-    public DialogAddCitizen(Connection connection) {
+    public DialogAddCitizen(Connection connection, String status) {
         this.connection = connection;
+        this.status = status;
 
         initUI();
         initLabel();
@@ -28,7 +34,7 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
     }
 
     protected void initUI() {
-        this.setTitle("Census [add new citizen]");
+        this.setTitle("Census [add new ]" + status.toLowerCase(Locale.ROOT));
         this.setSize(500, 520);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
@@ -37,7 +43,7 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
     }
 
     protected void initLabel() {
-        JLabel labelDescription = new JLabel("Enter personal data of the new citizen");
+        JLabel labelDescription = new JLabel("Enter personal data of the new " + status.toLowerCase(Locale.ROOT));
         labelDescription.setBounds(135, 20, 300, 30);
         this.add(labelDescription);
 
@@ -154,11 +160,11 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
                     throw new IndexOutOfBoundsException();
                 }
 
-                if (addCitizen(pesel, password, name, surname, city, street, house, flat)) {
-                    JOptionPane.showMessageDialog(this, "Citizen has been added successfully.");
+                if (addCitizen(pesel, password, name, surname, city, street, house, flat) == 1) {
+                    JOptionPane.showMessageDialog(this, status + " has been added successfully.");
                     this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Citizen with this PESEL number already exists.");
+                    JOptionPane.showMessageDialog(this, "User with this PESEL number already exists.");
                 }
 
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {
@@ -167,9 +173,32 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
         }
     }
 
-    protected boolean addCitizen(String pesel, String password, String name, String surname, String city, String street, int house, int flat) {
-        //TODO: check if pesel already exists in database
-        //TODO: take care of the "null" flat
-        return true;
+    protected int addCitizen(String pesel, String password, String name, String surname, String city, String street, int house, int flat) {
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL addCitizen(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            cstmt.setString(1, pesel);
+            cstmt.setString(2, password);
+            cstmt.setString(3, status);
+            cstmt.setString(4, name);
+            cstmt.setString(5, surname);
+            cstmt.setString(6, city);
+            cstmt.setString(7, street);
+            cstmt.setInt(8, house);
+
+            if (flat == 0) {
+                cstmt.setInt(9, 0); //HOW TO PUT A NULL HERE?!
+            } else {
+                cstmt.setInt(9, flat);
+            }
+
+            cstmt.registerOutParameter(10, Types.INTEGER);
+            cstmt.execute();
+            int result = cstmt.getInt(10);
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
     }
 }
