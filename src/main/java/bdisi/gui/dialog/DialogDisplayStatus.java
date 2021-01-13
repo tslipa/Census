@@ -3,7 +3,10 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Locale;
 
 public class DialogDisplayStatus extends JDialog implements ActionListener {
@@ -61,7 +64,7 @@ public class DialogDisplayStatus extends JDialog implements ActionListener {
 
             if (status != null) {
                 JOptionPane.showMessageDialog(this, "User with PESEL number "
-                        + pesel + " is a " + status.toLowerCase(Locale.ROOT) + ".");
+                        + pesel + " is a(n) " + status.toLowerCase(Locale.ROOT) + ".");
             } else {
                 JOptionPane.showMessageDialog(this, "User with PESEL number "
                         + pesel + " does not exist.");
@@ -74,8 +77,17 @@ public class DialogDisplayStatus extends JDialog implements ActionListener {
     }
 
     private String displayStatus(String pesel) {
-        String status = "Bureaucrat";
-
-        return status;
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL displayStatus(?, ?)}");
+            cstmt.setString(1, pesel);
+            cstmt.registerOutParameter(2, Types.VARCHAR);
+            cstmt.execute();
+            String result = cstmt.getString(2);
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }

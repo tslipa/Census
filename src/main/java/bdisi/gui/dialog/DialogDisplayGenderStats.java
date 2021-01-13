@@ -3,7 +3,10 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 
 public class DialogDisplayGenderStats extends JDialog implements ActionListener {
     private final Connection connection;
@@ -59,8 +62,17 @@ public class DialogDisplayGenderStats extends JDialog implements ActionListener 
     }
 
     private int displayGenderStats(String gender) {
-        int quantity = 0;
-
-        return quantity;
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL displayGenderStats(?, ?)}");
+            cstmt.setString(1, gender);
+            cstmt.registerOutParameter(2, Types.INTEGER);
+            cstmt.execute();
+            int result = cstmt.getInt(2);
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package bdisi;
+package bdisi.entities;
 
 import org.hibernate.Session;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

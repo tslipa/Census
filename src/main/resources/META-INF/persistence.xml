@@ -2,15 +2,15 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
     <persistence-unit name="bdisi">
         <class>bdisi.App</class>
-        <class>bdisi.AddressesEntity</class>
-        <class>bdisi.BirthdaysEntity</class>
-        <class>bdisi.CitizensEntity</class>
-        <class>bdisi.CitystatsEntity</class>
-        <class>bdisi.GendersEntity</class>
-        <class>bdisi.GenderstatsEntity</class>
-        <class>bdisi.PasswordsEntity</class>
-        <class>bdisi.StatusesEntity</class>
-        <class>bdisi.YearstatsEntity</class>
+        <class>bdisi.entities.AddressesEntity</class>
+        <class>bdisi.entities.BirthdaysEntity</class>
+        <class>bdisi.entities.CitizensEntity</class>
+        <class>bdisi.entities.CitystatsEntity</class>
+        <class>bdisi.entities.GendersEntity</class>
+        <class>bdisi.entities.GenderstatsEntity</class>
+        <class>bdisi.entities.PasswordsEntity</class>
+        <class>bdisi.entities.StatusesEntity</class>
+        <class>bdisi.entities.YearstatsEntity</class>
         <properties>
             <property name="hibernate.jdbc.url" value="jdbc:mysql://localhost:3306/SpisPowszechny"/>
             <property name="hibernate.jdbc.driver" value="com.mysql.jdbc.Driver"/>

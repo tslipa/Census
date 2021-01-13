@@ -1,4 +1,4 @@
-package bdisi;
+package bdisi.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

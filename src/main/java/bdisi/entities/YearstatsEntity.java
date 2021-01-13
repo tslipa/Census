@@ -1,21 +1,21 @@
-package bdisi;
+package bdisi.entities;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "genderstats", schema = "spispowszechny", catalog = "")
-public class GenderstatsEntity {
-    private String gender;
+@Table(name = "yearstats", schema = "spispowszechny", catalog = "")
+public class YearstatsEntity {
+    private int year;
     private int quantity;
 
     @Id
-    @Column(name = "gender")
-    public String getGender() {
-        return gender;
+    @Column(name = "year")
+    public int getYear() {
+        return year;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     @Basic
@@ -33,17 +33,17 @@ public class GenderstatsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GenderstatsEntity that = (GenderstatsEntity) o;
+        YearstatsEntity that = (YearstatsEntity) o;
 
+        if (year != that.year) return false;
         if (quantity != that.quantity) return false;
-        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = gender != null ? gender.hashCode() : 0;
+        int result = year;
         result = 31 * result + quantity;
         return result;
     }

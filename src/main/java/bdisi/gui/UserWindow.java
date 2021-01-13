@@ -5,11 +5,13 @@ import bdisi.gui.dialog.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.swing.*;
 
 
 public class UserWindow extends JFrame implements ActionListener {
-    private final Connection connection = null;
+    private Connection connection = null;
     private final String pesel;
 
     private JButton printMyPersonalDataButton;
@@ -56,21 +58,42 @@ public class UserWindow extends JFrame implements ActionListener {
     private void setupCitizen() {
         setLayout(new GridLayout(1,3));
         setBounds(500, 400, 600, 100);
+
+        try {
+            String URL = "jdbc:mysql://localhost:3306/Census?user=Citizen&password=nezitiC2&noAccessToProcedureBodies=true";
+            connection = DriverManager.getConnection(URL);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
         addCitizenButtons();
     }
 
     private void setupBureaucrat() {
         setLayout(new GridLayout(2,5));
         setBounds(300, 350, 1000, 200);
-        addCitizenButtons();
+
+        try {
+            String URL = "jdbc:mysql://localhost:3306/Census?user=Bureaucrat&password=tarcuareuB3&noAccessToProcedureBodies=true";
+            connection = DriverManager.getConnection(URL);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
         addBureaucratButtons();
     }
 
     private void setupAdmin() {
         setLayout(new GridLayout(3,5));
         setBounds(300, 300, 1000, 300);
-        addCitizenButtons();
-        addBureaucratButtons();
+
+        try {
+            String URL = "jdbc:mysql://localhost:3306/Census?user=Admin&password=nimdA4&noAccessToProcedureBodies=true";
+            connection = DriverManager.getConnection(URL);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
         addAdminButtons();
     }
 
@@ -89,6 +112,8 @@ public class UserWindow extends JFrame implements ActionListener {
     }
 
     private void addBureaucratButtons() {
+        addCitizenButtons();
+
         printPersonalDataButton = new JButton("Print somebody's data");
         printPersonalDataButton.addActionListener(this);
         add(printPersonalDataButton);
@@ -119,6 +144,8 @@ public class UserWindow extends JFrame implements ActionListener {
     }
 
     private void addAdminButtons() {
+        addBureaucratButtons();
+
         addBureaucratButton = new JButton("Add new bureaucrat");
         addBureaucratButton.addActionListener(this);
         add(addBureaucratButton);

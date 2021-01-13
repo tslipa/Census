@@ -5,7 +5,10 @@ import org.jboss.jandex.Index;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 
 public class DialogDisplayYearStats extends JDialog implements ActionListener {
     private final Connection connection;
@@ -75,8 +78,17 @@ public class DialogDisplayYearStats extends JDialog implements ActionListener {
     }
 
     private int displayYearStats(int year) {
-        int quantity = 0;
-
-        return quantity;
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL displayYearStats(?, ?)}");
+            cstmt.setInt(1, year);
+            cstmt.registerOutParameter(2, Types.INTEGER);
+            cstmt.execute();
+            int result = cstmt.getInt(2);
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
     }
 }
