@@ -78,10 +78,9 @@ public class DialogDeleteCitizen extends JDialog implements ActionListener {
             cstmt.setString(1, pesel);
 
             boolean result;
-            cstmt.registerOutParameter(2, Types.VARCHAR);
-
+            cstmt.registerOutParameter(2, Types.INTEGER);
+            result = cstmt.getInt(2) == 1;
             cstmt.execute();
-            result = cstmt.getString(2) == "1";
             cstmt.close();
             return result;
         } catch (SQLException ex) {

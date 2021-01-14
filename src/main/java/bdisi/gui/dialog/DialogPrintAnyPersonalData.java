@@ -78,8 +78,8 @@ public class DialogPrintAnyPersonalData extends JDialog implements ActionListene
             cstmt.setString(1, pesel);
 
             boolean result;
-            cstmt.registerOutParameter(2, Types.VARCHAR);
-            result = cstmt.getString(2) == "1";
+            cstmt.registerOutParameter(2, Types.INTEGER);
+            result = cstmt.getInt(2) == 1;
             cstmt.execute();
             cstmt.close();
             return result;
