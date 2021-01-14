@@ -5,6 +5,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -89,8 +90,13 @@ public class DialogRestore extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
             try {
-                String executeCmd = "\"" + textFieldMySql.getText() + "\" " + " --database=census --user=root --password=pepet --host=127.0.0.1 --port=3306  < " + textFieldRestore.getText();
-                Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+                String comando = "\"" + textFieldMySql.getText() + "\" " + " --database=census --user=root --password=pepet --host=127.0.0.1 --port=3306  < " + textFieldRestore.getText();
+                File f = new File("restore.bat");
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(comando.getBytes());
+                fos.close();
+                Process runtimeProcess = Runtime.getRuntime().exec("cmd /C start restore.bat ");
+
                 int processComplete = runtimeProcess.waitFor();
 
                 if (processComplete == 0) {

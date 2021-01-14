@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="bdisi/TopLink" uuid="61caaf51-6290-4c69-b7b6-e054bbc0cc94">
+    <data-source source="LOCAL" name="census@localhost" uuid="cfe579fe-7225-4dd5-96ea-8a1756f8e207">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>TopLink
-
-D:/pcegi/Desktop/Census2/src/main/resources/META-INF/persistence.xml</remarks>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://localhost:3306/SpisPowszechny</jdbc-url>
+      <jdbc-url>jdbc:mariadb://localhost:3306/census</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
