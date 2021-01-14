@@ -3,7 +3,10 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 
 public class DialogChangeStatus extends JDialog implements ActionListener {
     private final Connection connection;
@@ -85,10 +88,33 @@ public class DialogChangeStatus extends JDialog implements ActionListener {
     }
 
     private boolean checkPesel(String pesel) {
-        return true;
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL checkPesel(?, ?)}");
+            cstmt.setString(1, pesel);
+
+            boolean result;
+            cstmt.registerOutParameter(2, Types.VARCHAR);
+
+            cstmt.execute();
+            result = cstmt.getString(2) == "1";
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     private void changeStatus(String pesel, String status) {
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL addCitizen(?, ?)}");
+            cstmt.setString(1, pesel);
+            cstmt.setString(2, status);
 
+            cstmt.execute();
+            cstmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

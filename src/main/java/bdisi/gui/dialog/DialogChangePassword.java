@@ -3,7 +3,10 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 
 public class DialogChangePassword extends JDialog implements ActionListener {
     private final Connection connection;
@@ -88,6 +91,28 @@ public class DialogChangePassword extends JDialog implements ActionListener {
     }
 
     private boolean changePassword(String oldPassword, String newPassword) {
-        return true;
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL correctLoginData(?, ?, ?)}");
+            cstmt.setString(1, pesel);
+            cstmt.setString(2, oldPassword);
+
+            cstmt.registerOutParameter(3, Types.VARCHAR);
+            cstmt.execute();
+            String result = cstmt.getString(3);
+            cstmt.close();
+            if (result == "1") {
+                cstmt = connection.prepareCall("{CALL changePassword(?, ?, ?)}");
+                cstmt.setString(1, pesel);
+                cstmt.setString(2, oldPassword);
+                cstmt.setString(3, newPassword);
+
+                cstmt.execute();
+            }
+            cstmt.close();
+            return (result == "1");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 }

@@ -20,7 +20,19 @@ public class DialogPrintMyPersonalData extends JDialog {
     }
 
     private String printPersonalData() {
-        //wyłuskać dane z bazy
-        return "Dane";
+        String result = "Error";
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL printPersonalData(?, ?)}");
+            cstmt.setString(1, pesel);
+
+            cstmt.registerOutParameter(2, Types.VARCHAR);
+            cstmt.execute();
+            result = cstmt.getString(2);
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return result;
+        }
     }
 }

@@ -3,7 +3,10 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 
 public class DialogDeleteBureaucrat extends JDialog implements ActionListener {
     private final Connection connection;
@@ -62,24 +65,45 @@ public class DialogDeleteBureaucrat extends JDialog implements ActionListener {
 
         if (!checkPesel(pesel)) {
             JOptionPane.showMessageDialog(this, "No such pesel in the database.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!getStatus(pesel).equals("Bureaucrat")) {
-            JOptionPane.showMessageDialog(this, "He or she is not a bureaucrat!", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "A bureaucrat deleted.");
+            JOptionPane.showMessageDialog(this, deleteBureaucrat(pesel));
         }
 
         this.dispose();
     }
 
     private boolean checkPesel(String pesel) {
-        return true;
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL checkPesel(?, ?)}");
+            cstmt.setString(1, pesel);
+
+            boolean result;
+            cstmt.registerOutParameter(2, Types.VARCHAR);
+            result = cstmt.getString(2) == "1";
+            cstmt.execute();
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 
-    private String getStatus(String pesel) {
-        return "Bureaucrat";
-    }
+    private String deleteBureaucrat(String pesel) {
+        String result = "error";
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL addCitizen(?, ?, ?)}");
+            cstmt.setString(1, pesel);
+            cstmt.setString(2, "Bureaucrat");
+            cstmt.registerOutParameter(3, Types.VARCHAR);
 
-    private void deleteBureaucrat(String pesel) {
-        //wyłuskać dane z bazy
+            cstmt.execute();
+            result = cstmt.getString(3);
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return result;
+        }
     }
 }

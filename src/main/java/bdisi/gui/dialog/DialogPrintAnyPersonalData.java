@@ -3,7 +3,10 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 
 public class DialogPrintAnyPersonalData extends JDialog implements ActionListener {
     private final Connection connection;
@@ -70,11 +73,36 @@ public class DialogPrintAnyPersonalData extends JDialog implements ActionListene
     }
 
     private boolean checkPesel(String pesel) {
-        return false;
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL checkPesel(?, ?)}");
+            cstmt.setString(1, pesel);
+
+            boolean result;
+            cstmt.registerOutParameter(2, Types.VARCHAR);
+            result = cstmt.getString(2) == "1";
+            cstmt.execute();
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     private String printPersonalData(String pesel) {
-        //wyłuskać dane z bazy
-        return "Dane";
+        String result = "Error";
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL printPersonalData(?, ?)}");
+            cstmt.setString(1, pesel);
+
+            cstmt.registerOutParameter(2, Types.VARCHAR);
+            cstmt.execute();
+            result = cstmt.getString(2);
+            cstmt.close();
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return result;
+        }
     }
 }

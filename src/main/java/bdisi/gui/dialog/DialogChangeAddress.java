@@ -3,7 +3,10 @@ package bdisi.gui.dialog;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 
 public class DialogChangeAddress extends JDialog implements ActionListener {
     private final Connection connection;
@@ -117,6 +120,18 @@ public class DialogChangeAddress extends JDialog implements ActionListener {
     }
 
     private void changeAddress(String city, String street, int house, Integer flat) {
-        //baza
+        try {
+            CallableStatement cstmt = connection.prepareCall("{CALL addCitizen(?, ?, ?, ?, ?)}");
+            cstmt.setString(1, pesel);
+            cstmt.setString(2, city);
+            cstmt.setString(3, street);
+            cstmt.setInt(4, house);
+            cstmt.setInt(5, flat);
+
+            cstmt.execute();
+            cstmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }
