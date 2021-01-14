@@ -92,24 +92,17 @@ public class DialogChangePassword extends JDialog implements ActionListener {
 
     private boolean changePassword(String oldPassword, String newPassword) {
         try {
-            CallableStatement cstmt = connection.prepareCall("{CALL correctLoginData(?, ?, ?)}");
+            CallableStatement cstmt = connection.prepareCall("{CALL changePassword(?, ?, ?, ?)}");
             cstmt.setString(1, pesel);
             cstmt.setString(2, oldPassword);
+            cstmt.setString(3, newPassword);
+            cstmt.registerOutParameter(4, Types.INTEGER);
 
-            cstmt.registerOutParameter(3, Types.VARCHAR);
             cstmt.execute();
-            String result = cstmt.getString(3);
-            cstmt.close();
-            if (result == "1") {
-                cstmt = connection.prepareCall("{CALL changePassword(?, ?, ?)}");
-                cstmt.setString(1, pesel);
-                cstmt.setString(2, oldPassword);
-                cstmt.setString(3, newPassword);
 
-                cstmt.execute();
-            }
+            int result = cstmt.getInt(4);
             cstmt.close();
-            return (result == "1");
+            return (result == 1);
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
