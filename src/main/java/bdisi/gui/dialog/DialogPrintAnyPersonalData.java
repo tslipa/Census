@@ -63,46 +63,38 @@ public class DialogPrintAnyPersonalData extends JDialog implements ActionListene
     public void actionPerformed(ActionEvent e) {
         String pesel = textFieldPesel.getText();
 
-        if (checkPesel(pesel)) {
-            JOptionPane.showMessageDialog(this, printPersonalData(pesel));
-        } else {
-            JOptionPane.showMessageDialog(this, "No such pesel in the database.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        JOptionPane.showMessageDialog(this, printPersonalData(pesel));
 
         this.dispose();
     }
 
-    private boolean checkPesel(String pesel) {
-        try {
-            CallableStatement cstmt = connection.prepareCall("{CALL checkPesel(?, ?)}");
-            cstmt.setString(1, pesel);
-
-            boolean result;
-            cstmt.registerOutParameter(2, Types.INTEGER);
-            result = cstmt.getInt(2) == 1;
-            cstmt.execute();
-            cstmt.close();
-            return result;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
     private String printPersonalData(String pesel) {
-        String result = "Error";
         try {
-            CallableStatement cstmt = connection.prepareCall("{CALL printPersonalData(?, ?)}");
+            CallableStatement cstmt = connection.prepareCall("{CALL printPersonalData(?, ?, ?, ?)}");
             cstmt.setString(1, pesel);
-
             cstmt.registerOutParameter(2, Types.VARCHAR);
+            cstmt.registerOutParameter(3, Types.VARCHAR);
+            cstmt.registerOutParameter(4, Types.VARCHAR);
+
             cstmt.execute();
-            result = cstmt.getString(2);
+            String result = "PESEL number:\n" + pesel + "\n";
+            String names = cstmt.getString(2);
+            String address = cstmt.getString(3);
+            String birthday = cstmt.getString(4);
+            if (address != null) {
+                result = result + "\nName and surname:\n" + names + "\n";
+                result = result + "\nAddress:\n" + address + "\n";
+                result = result + "\nBirthday:\n" + birthday;
+            } else {
+                result = result + "\n" + names;
+            }
+
             cstmt.close();
+
             return result;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return result;
+            return "Error";
         }
     }
 }

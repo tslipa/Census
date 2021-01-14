@@ -99,8 +99,8 @@ public class DialogChangePassword extends JDialog implements ActionListener {
             cstmt.registerOutParameter(4, Types.INTEGER);
 
             cstmt.execute();
-
             int result = cstmt.getInt(4);
+
             cstmt.close();
             return (result == 1);
         } catch (SQLException ex) {

@@ -31,7 +31,7 @@ public class DialogChangeAddress extends JDialog implements ActionListener {
 
     protected void initUI() {
         this.setTitle("Census [change address]");
-        this.setSize(400, 300);
+        this.setSize(400, 430);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setModal(true);
@@ -39,42 +39,42 @@ public class DialogChangeAddress extends JDialog implements ActionListener {
     }
 
     protected void initLabel() {
-        JLabel labelDescription = new JLabel("Enter your city, street, house and flat (if necessary)");
-        labelDescription.setBounds(50, 20, 320, 30);
+        JLabel labelDescription = new JLabel("Enter your new address");
+        labelDescription.setBounds(120, 20, 150, 30);
         this.add(labelDescription);
 
         JLabel labelCity = new JLabel("City");
-        labelCity.setBounds(50, 90, 180, 30);
+        labelCity.setBounds(50, 110, 200, 30);
         this.add(labelCity);
 
         JLabel labelNew = new JLabel("Street");
-        labelNew.setBounds(50, 150, 180, 30);
+        labelNew.setBounds(50, 180, 180, 30);
         this.add(labelNew);
 
         JLabel labelHouse = new JLabel("House");
-        labelHouse.setBounds(270, 90, 50, 30);
+        labelHouse.setBounds(50, 250, 50, 30);
         this.add(labelHouse);
 
         JLabel labelFlat = new JLabel("Flat");
-        labelFlat.setBounds(270, 150, 50, 30);
+        labelFlat.setBounds(210, 250, 50, 30);
         this.add(labelFlat);
     }
 
     protected void initTextField() {
         textFieldCity = new JTextField();
-        textFieldCity.setBounds(50, 60, 180, 30);
+        textFieldCity.setBounds(50, 80, 290, 30);
         this.add(textFieldCity);
 
         textFieldStreet = new JTextField();
-        textFieldStreet.setBounds(50, 120, 180, 30);
+        textFieldStreet.setBounds(50, 150, 290, 30);
         this.add(textFieldStreet);
 
         textFieldHouse = new JTextField();
-        textFieldHouse.setBounds(270, 60, 50, 30);
+        textFieldHouse.setBounds(50, 220, 130, 30);
         this.add(textFieldHouse);
 
         textFieldFlat = new JTextField();
-        textFieldFlat.setBounds(270, 120, 50, 30);
+        textFieldFlat.setBounds(210, 220, 130, 30);
         this.add(textFieldFlat);
 
         textFieldCity.addActionListener(this);
@@ -85,7 +85,7 @@ public class DialogChangeAddress extends JDialog implements ActionListener {
 
     protected void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(150, 190, 100, 50);
+        button.setBounds(140, 310, 100, 50);
         this.add(button);
 
         button.addActionListener(this);
@@ -96,7 +96,7 @@ public class DialogChangeAddress extends JDialog implements ActionListener {
         String city = textFieldCity.getText();
         String street = textFieldStreet.getText();
         int house;
-        Integer flat = null;
+        int flat = 0;
 
         try {
             house = Integer.parseInt(textFieldHouse.getText());
@@ -121,7 +121,7 @@ public class DialogChangeAddress extends JDialog implements ActionListener {
 
     private void changeAddress(String city, String street, int house, Integer flat) {
         try {
-            CallableStatement cstmt = connection.prepareCall("{CALL addCitizen(?, ?, ?, ?, ?)}");
+            CallableStatement cstmt = connection.prepareCall("{CALL changeAddress(?, ?, ?, ?, ?)}");
             cstmt.setString(1, pesel);
             cstmt.setString(2, city);
             cstmt.setString(3, street);

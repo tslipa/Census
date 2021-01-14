@@ -180,7 +180,7 @@ public class UserWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == addCitizenButton) {
             new DialogAddCitizen(connection, "Citizen");
         } else if (e.getSource() == deleteCitizenButton) {
-            new DialogDeleteCitizen(connection);
+            new DialogDeleteCitizen(connection, "Citizen");
         } else if (e.getSource() == displayCityStatsButton) {
             new DialogDisplayCityStats(connection);
         } else if (e.getSource() == displayGenderStatsButton) {
@@ -192,7 +192,7 @@ public class UserWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == addBureaucratButton) {
             new DialogAddCitizen(connection, "Bureaucrat");
         } else if (e.getSource() == deleteBureaucratButton) {
-            new DialogDeleteBureaucrat(connection);
+            new DialogDeleteCitizen(connection, "Bureaucrat");
         } else if (e.getSource() == changeStatusButton) {
             new DialogChangeStatus(connection);
         } else if (e.getSource() == rollbackButton) {

@@ -7,14 +7,17 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Locale;
 
 public class DialogDeleteCitizen extends JDialog implements ActionListener {
     private final Connection connection;
+    private String status;
 
     private JTextField textFieldPesel;
 
-    public DialogDeleteCitizen(Connection connection) {
+    public DialogDeleteCitizen(Connection connection, String status) {
         this.connection = connection;
+        this.status = status;
 
         initUI();
         initLabel();
@@ -25,7 +28,7 @@ public class DialogDeleteCitizen extends JDialog implements ActionListener {
     }
 
     protected void initUI() {
-        this.setTitle("Census [delete citizen]");
+        this.setTitle("Census [delete " + status.toLowerCase(Locale.ROOT) + "]");
         this.setSize(300, 250);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
@@ -34,11 +37,11 @@ public class DialogDeleteCitizen extends JDialog implements ActionListener {
     }
 
     protected void initLabel() {
-        JLabel labelDescription = new JLabel("Enter a pesel of a citizen");
+        JLabel labelDescription = new JLabel("Enter PESEL number of a " + status.toLowerCase(Locale.ROOT));
         labelDescription.setBounds(50, 20, 300, 30);
         this.add(labelDescription);
 
-        JLabel labelPesel = new JLabel("Pesel");
+        JLabel labelPesel = new JLabel("PESEL number");
         labelPesel.setBounds(50, 90, 180, 30);
         this.add(labelPesel);
     }
@@ -63,47 +66,25 @@ public class DialogDeleteCitizen extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String pesel = textFieldPesel.getText();
 
-        if (!checkPesel(pesel)) {
-            JOptionPane.showMessageDialog(this, "No such pesel in the database.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, deleteCitizen(pesel));
-        }
+        JOptionPane.showMessageDialog(this, deleteBureaucrat(pesel));
 
         this.dispose();
     }
 
-    private boolean checkPesel(String pesel) {
+    private String deleteBureaucrat(String pesel) {
         try {
-            CallableStatement cstmt = connection.prepareCall("{CALL checkPesel(?, ?)}");
+            CallableStatement cstmt = connection.prepareCall("{CALL deleteCitizen(?, ?, ?)}");
             cstmt.setString(1, pesel);
-
-            boolean result;
-            cstmt.registerOutParameter(2, Types.INTEGER);
-            result = cstmt.getInt(2) == 1;
-            cstmt.execute();
-            cstmt.close();
-            return result;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
-    private String deleteCitizen(String pesel) {
-        String result = "error";
-        try {
-            CallableStatement cstmt = connection.prepareCall("{CALL addCitizen(?, ?, ?)}");
-            cstmt.setString(1, pesel);
-            cstmt.setString(2, "Citizen");
+            cstmt.setString(2, status);
             cstmt.registerOutParameter(3, Types.VARCHAR);
 
             cstmt.execute();
-            result = cstmt.getString(3);
+            String result = cstmt.getString(3);
             cstmt.close();
             return result;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return result;
+            return "Error";
         }
     }
 }

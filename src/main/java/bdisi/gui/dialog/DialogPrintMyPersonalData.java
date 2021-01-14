@@ -20,19 +20,25 @@ public class DialogPrintMyPersonalData extends JDialog {
     }
 
     private String printPersonalData() {
-        String result = "Error";
         try {
-            CallableStatement cstmt = connection.prepareCall("{CALL printPersonalData(?, ?)}");
+            CallableStatement cstmt = connection.prepareCall("{CALL printPersonalData(?, ?, ?, ?)}");
             cstmt.setString(1, pesel);
-
             cstmt.registerOutParameter(2, Types.VARCHAR);
+            cstmt.registerOutParameter(3, Types.VARCHAR);
+            cstmt.registerOutParameter(4, Types.VARCHAR);
+
             cstmt.execute();
-            result = cstmt.getString(2);
+            String result = "PESEL number:\n" + pesel + "\n";
+            result += "\nName and surname:\n" + cstmt.getString(2) + "\n";
+            result += "\nAddress:\n" + cstmt.getString(3) + "\n";
+            result += "\nBirthday:\n" + cstmt.getString(4);
+
             cstmt.close();
+
             return result;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return result;
+            return "Error";
         }
     }
 }

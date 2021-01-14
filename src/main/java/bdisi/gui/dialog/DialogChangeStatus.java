@@ -77,43 +77,31 @@ public class DialogChangeStatus extends JDialog implements ActionListener {
         String pesel = textFieldPesel.getText();
         String status = (String) comboBox.getSelectedItem();
 
-        if (checkPesel(pesel) ) {
-            changeStatus(pesel, status);
+        if (changeStatus(pesel, status)) {
             JOptionPane.showMessageDialog(this, "Status changed.");
         } else {
-            JOptionPane.showMessageDialog(this, "No such pesel in the database.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "This PESEL number does not exist in the database" +
+                    " or you are not allowed to change status of this user.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         this.dispose();
     }
 
-    private boolean checkPesel(String pesel) {
+    private boolean changeStatus(String pesel, String status) {
         try {
-            CallableStatement cstmt = connection.prepareCall("{CALL checkPesel(?, ?)}");
+            CallableStatement cstmt = connection.prepareCall("{CALL changeStatus(?, ?, ?)}");
             cstmt.setString(1, pesel);
+            cstmt.setString(2, status);
+            cstmt.registerOutParameter(3, Types.INTEGER);
 
-            boolean result;
-            cstmt.registerOutParameter(2, Types.INTEGER);
-            result = cstmt.getInt(2) == 1;
             cstmt.execute();
+            int result = cstmt.getInt(3);
             cstmt.close();
-            return result;
+
+            return (result == 1);
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
-        }
-    }
-
-    private void changeStatus(String pesel, String status) {
-        try {
-            CallableStatement cstmt = connection.prepareCall("{CALL addCitizen(?, ?)}");
-            cstmt.setString(1, pesel);
-            cstmt.setString(2, status);
-
-            cstmt.execute();
-            cstmt.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
 }
