@@ -29,8 +29,8 @@ public class UserWindow extends JFrame implements ActionListener {
     private JButton addBureaucratButton;
     private JButton deleteBureaucratButton;
     private JButton changeStatusButton;
-    private JButton rollbackButton;
     private JButton backupButton;
+    private JButton restoreButton;
 
     public UserWindow(String status, String pesel) {
         this.pesel = pesel;
@@ -170,13 +170,13 @@ public class UserWindow extends JFrame implements ActionListener {
         changeStatusButton.addActionListener(this);
         add(changeStatusButton);
 
-        rollbackButton = new JButton("Do a rollback");
-        rollbackButton.addActionListener(this);
-        add(rollbackButton);
-
-        backupButton = new JButton("Make a backup");
+        backupButton = new JButton("Make a backup of database");
         backupButton.addActionListener(this);
         add(backupButton);
+
+        restoreButton = new JButton("Restore database");
+        restoreButton.addActionListener(this);
+        add(restoreButton);
     }
 
     @Override
@@ -207,10 +207,10 @@ public class UserWindow extends JFrame implements ActionListener {
             new DialogDeleteCitizen(connection, "Bureaucrat");
         } else if (e.getSource() == changeStatusButton) {
             new DialogChangeStatus(connection);
-        } else if (e.getSource() == rollbackButton) {
-            new DialogRestore();
         } else if (e.getSource() == backupButton) {
             new DialogBackup();
+        } else if (e.getSource() == restoreButton) {
+            new DialogRestore();
         }
     }
 }

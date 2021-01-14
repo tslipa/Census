@@ -34,13 +34,13 @@ public class DialogPrintAnyPersonalData extends JDialog implements ActionListene
 
     protected void initLabel() {
         JLabel label = new JLabel("Enter the PESEL number");
-        label.setBounds(64, 30, 170, 30);
+        label.setBounds(70, 30, 170, 30);
         this.add(label);
     }
 
     protected void initTextField() {
         textField = new JTextField();
-        textField.setBounds(50, 80, 200, 30);
+        textField.setBounds(50, 80, 190, 30);
         this.add(textField);
 
         textField.addActionListener(this);
@@ -48,7 +48,7 @@ public class DialogPrintAnyPersonalData extends JDialog implements ActionListene
 
     protected void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(100, 130, 100, 50);
+        button.setBounds(95, 130, 100, 50);
         this.add(button);
 
         button.addActionListener(this);

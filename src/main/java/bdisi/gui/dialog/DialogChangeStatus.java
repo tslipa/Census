@@ -28,7 +28,7 @@ public class DialogChangeStatus extends JDialog implements ActionListener {
 
     protected void initUI() {
         this.setTitle("Census [change status]");
-        this.setSize(300, 300);
+        this.setSize(300, 350);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setModal(true);
@@ -36,29 +36,29 @@ public class DialogChangeStatus extends JDialog implements ActionListener {
     }
 
     protected void initLabel() {
-        JLabel labelDescription = new JLabel("Enter a pesel");
-        labelDescription.setBounds(50, 20, 300, 30);
+        JLabel labelDescription = new JLabel("Change status of a non-admin");
+        labelDescription.setBounds(55, 25, 300, 30);
         this.add(labelDescription);
 
-        JLabel labelPesel = new JLabel("Pesel");
-        labelPesel.setBounds(50, 90, 180, 30);
+        JLabel labelPesel = new JLabel("PESEL number");
+        labelPesel.setBounds(50, 110, 180, 30);
         this.add(labelPesel);
 
-        JLabel labelStatus = new JLabel("Status");
-        labelStatus.setBounds(50, 160, 180, 30);
+        JLabel labelStatus = new JLabel("New status");
+        labelStatus.setBounds(50, 190, 180, 30);
         this.add(labelStatus);
     }
 
     private void initComboBox() {
         String[] statuses = {"Citizen", "Bureaucrat"};
         comboBox = new JComboBox<>(statuses);
-        comboBox.setBounds(50, 130, 200, 30);
+        comboBox.setBounds(50, 160, 190, 30);
         this.add(comboBox);
     }
 
     protected void initTextField() {
         textFieldPesel = new JTextField();
-        textFieldPesel.setBounds(50, 60, 180, 30);
+        textFieldPesel.setBounds(50, 80, 190, 30);
         this.add(textFieldPesel);
 
         textFieldPesel.addActionListener(this);
@@ -66,7 +66,7 @@ public class DialogChangeStatus extends JDialog implements ActionListener {
 
     protected void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(80, 200, 100, 50);
+        button.setBounds(80, 250, 100, 50);
         this.add(button);
 
         button.addActionListener(this);

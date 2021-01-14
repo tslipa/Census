@@ -44,7 +44,7 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
 
     private void initLabel() {
         JLabel labelDescription = new JLabel("Enter personal data of the new " + status.toLowerCase(Locale.ROOT));
-        labelDescription.setBounds(135, 20, 300, 30);
+        labelDescription.setBounds(130, 20, 300, 30);
         this.add(labelDescription);
 
         JLabel labelPesel = new JLabel("PESEL number");
@@ -143,11 +143,11 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
         String sFlat = textFieldFlat.getText();
 
         if (pesel.length() != 11 || !pesel.matches("[0-9]+")) {
-            JOptionPane.showMessageDialog(this, "PESEL number is invalid.");
+            JOptionPane.showMessageDialog(this, "PESEL number is invalid.", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (password.length() < 6 || password.length() > 20) {
-            JOptionPane.showMessageDialog(this, "Password should be between 6 and 20 characters.");
+            JOptionPane.showMessageDialog(this, "Password should be between 6 and 20 characters.", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (name.length() == 0 || surname.length() == 0 || city.length() == 0 || street.length() == 0) {
-            JOptionPane.showMessageDialog(this, "Fields: Name, Surname, City and Street can't be empty.");
+            JOptionPane.showMessageDialog(this, "Fields: Name, Surname, City and Street can't be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
                 int house = Integer.parseInt(sHouse);
@@ -164,11 +164,11 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
                     JOptionPane.showMessageDialog(this, status + " has been added successfully.");
                     this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "User with this PESEL number already exists.");
+                    JOptionPane.showMessageDialog(this, "User with this PESEL number already exists.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-                JOptionPane.showMessageDialog(this, "House and Flat parameters should be positive integers.");
+                JOptionPane.showMessageDialog(this, "House and Flat parameters should be positive integers.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

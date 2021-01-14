@@ -34,7 +34,7 @@ public class DialogDisplayGenderStats extends JDialog implements ActionListener 
 
     private void initLabel() {
         JLabel label = new JLabel("Choose a gender");
-        label.setBounds(100, 30, 100, 30);
+        label.setBounds(95, 30, 100, 30);
         this.add(label);
     }
 

@@ -50,7 +50,7 @@ public class DialogDisplayYearStats extends JDialog implements ActionListener {
 
     private void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(100, 130, 100, 50);
+        button.setBounds(95, 130, 100, 50);
         this.add(button);
 
         button.addActionListener(this);
@@ -71,7 +71,7 @@ public class DialogDisplayYearStats extends JDialog implements ActionListener {
             JOptionPane.showMessageDialog(this, year + " is the year of birth of " + quantity + " people.");
         } catch (NumberFormatException | IndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(this, "The given year is invalid."
-                    + " Year should be a number between 1900 and 2021.");
+                    + " Year should be a number between 1900 and 2021.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         this.dispose();

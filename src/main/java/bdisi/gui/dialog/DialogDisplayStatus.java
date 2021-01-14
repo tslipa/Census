@@ -49,7 +49,7 @@ public class DialogDisplayStatus extends JDialog implements ActionListener {
 
     private void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(100, 130, 100, 50);
+        button.setBounds(95, 130, 100, 50);
         this.add(button);
 
         button.addActionListener(this);
@@ -67,10 +67,10 @@ public class DialogDisplayStatus extends JDialog implements ActionListener {
                         + pesel + " is a(n) " + status.toLowerCase(Locale.ROOT) + ".");
             } else {
                 JOptionPane.showMessageDialog(this, "User with PESEL number "
-                        + pesel + " does not exist.");
+                        + pesel + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "This PESEL number is invalid.");
+            JOptionPane.showMessageDialog(this, "This PESEL number is invalid.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         this.dispose();

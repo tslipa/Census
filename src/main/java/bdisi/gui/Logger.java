@@ -22,7 +22,7 @@ public class Logger extends JFrame implements ActionListener {
 
     private void initUI() {
         setTitle("Census [log in]");
-        setSize(new Dimension(400, 320));
+        setSize(new Dimension(400, 370));
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -30,27 +30,31 @@ public class Logger extends JFrame implements ActionListener {
     }
 
     private void initLabels() {
-        JLabel labelTitle = new JLabel("Census - log in to the app");
-        labelTitle.setBounds(80, 20, 280, 40);
-        labelTitle.setFont(new Font(labelTitle.getName(), Font.BOLD, 18));
+        JLabel labelTitle = new JLabel("Census");
+        labelTitle.setBounds(75, 20, 280, 70);
+        labelTitle.setFont(new Font("Comic Sans MS", Font.BOLD, 70));
         this.add(labelTitle);
 
+        JLabel labelDescription = new JLabel("Log in to the app");
+        labelDescription.setBounds(145, 100, 200, 40);
+        this.add(labelDescription);
+
         JLabel labelLogin = new JLabel("Login");
-        labelLogin.setBounds(40, 100, 70, 30);
+        labelLogin.setBounds(40, 150, 70, 30);
         this.add(labelLogin);
 
         JLabel labelPassword = new JLabel("Password");
-        labelPassword.setBounds(40, 140, 70, 30);
+        labelPassword.setBounds(40, 190, 70, 30);
         this.add(labelPassword);
     }
 
     private void initTextFields() {
         textFieldLogin = new JTextField();
-        textFieldLogin.setBounds(140, 100, 200, 30);
+        textFieldLogin.setBounds(140, 150, 200, 30);
         this.add(textFieldLogin);
 
         textFieldPassword = new JPasswordField();
-        textFieldPassword.setBounds(140, 140, 200, 30);
+        textFieldPassword.setBounds(140, 190, 200, 30);
         this.add(textFieldPassword);
 
         textFieldLogin.addActionListener(this);
@@ -59,7 +63,7 @@ public class Logger extends JFrame implements ActionListener {
 
     private void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(150, 200, 100, 50);
+        button.setBounds(145, 250, 100, 50);
         this.add(button);
 
         button.addActionListener(this);

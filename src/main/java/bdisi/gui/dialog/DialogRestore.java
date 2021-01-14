@@ -31,8 +31,8 @@ public class DialogRestore extends JDialog implements ActionListener {
     }
 
     protected void initUI() {
-        this.setTitle("Census [do restore]");
-        this.setSize(450, 320);
+        this.setTitle("Census [restore database]");
+        this.setSize(550, 320);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setModal(true);
@@ -41,54 +41,54 @@ public class DialogRestore extends JDialog implements ActionListener {
 
     protected void initLabel() {
         JLabel labelDescription = new JLabel("Enter path to mysql.exe and backup file");
-        labelDescription.setBounds(85, 20, 300, 30);
+        labelDescription.setBounds(140, 35, 300, 30);
         this.add(labelDescription);
 
-        JLabel labelMySqlDump = new JLabel("path to mysql");
-        labelMySqlDump.setBounds(50, 110, 180, 30);
-        this.add(labelMySqlDump);
+        JLabel labelMySql = new JLabel("Path to mysql");
+        labelMySql.setBounds(30, 100, 120, 30);
+        this.add(labelMySql);
 
-        JLabel labelBackup = new JLabel("path to backup file");
-        labelBackup.setBounds(50, 190, 180, 30);
-        this.add(labelBackup);
+        JLabel labelRestore = new JLabel("Path to backup file");
+        labelRestore.setBounds(30, 150, 120, 30);
+        this.add(labelRestore);
     }
 
     protected void initTextField() {
         textFieldMySql = new JTextField();
-        textFieldMySql.setBounds(50, 80, 180, 30);
+        textFieldMySql.setBounds(165, 100, 215, 30);
         this.add(textFieldMySql);
 
         textFieldRestore = new JTextField();
-        textFieldRestore.setBounds(50, 160, 180, 30);
+        textFieldRestore.setBounds(165, 150, 215, 30);
         this.add(textFieldRestore);
-
-
-        textFieldMySql.addActionListener(this);
-        textFieldRestore.addActionListener(this);
     }
 
     protected void initButton() {
-        okButton = new JButton("OK");
-        okButton.setBounds(150, 220, 100, 50);
-        this.add(okButton);
-
-        mySqlButton = new JButton("browse");
-        mySqlButton.setBounds(250, 80, 120, 30);
+        mySqlButton = new JButton("Browse");
+        mySqlButton.setBounds(410, 100, 100, 30);
         this.add(mySqlButton);
 
-        restoreButton = new JButton("browse");
-        restoreButton.setBounds(250, 160, 120, 30);
+        restoreButton = new JButton("Browse");
+        restoreButton.setBounds(410, 150, 100, 30);
         this.add(restoreButton);
 
+        okButton = new JButton("OK");
+        okButton.setBounds(220, 220, 100, 50);
+        this.add(okButton);
 
-        okButton.addActionListener(this);
         mySqlButton.addActionListener(this);
         restoreButton.addActionListener(this);
+        okButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
+            if (textFieldRestore.getText().equals("") || textFieldMySql.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Choose the paths.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             try {
                 String comando = "\"" + textFieldMySql.getText() + "\" " + " --database=census --user=root --password=pepet --host=127.0.0.1 --port=3306  < " + textFieldRestore.getText();
                 File f = new File("restore.bat");
@@ -127,9 +127,5 @@ public class DialogRestore extends JDialog implements ActionListener {
                 textFieldRestore.setText(backupChooser.getSelectedFile().getPath());
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new DialogRestore();
     }
 }

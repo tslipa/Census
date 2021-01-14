@@ -87,7 +87,7 @@ public class DialogChangePassword extends JDialog implements ActionListener {
         String newPasswordRepeat = textFieldNewRepeat.getText();
 
         if (!newPassword.equals(newPasswordRepeat)) {
-            JOptionPane.showMessageDialog(this, "New password is not the same in both fields.");
+            JOptionPane.showMessageDialog(this, "New password is not the same in both fields.", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (newPassword.length() < 6 || newPassword.length() > 20) {
             JOptionPane.showMessageDialog(this, "New password should be between 6 and 20 characters!", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (changePassword(oldPassword, newPassword)) {

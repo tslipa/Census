@@ -36,18 +36,14 @@ public class DialogDeleteCitizen extends JDialog implements ActionListener {
     }
 
     protected void initLabel() {
-        JLabel labelDescription = new JLabel("Enter PESEL number of a " + status.toLowerCase(Locale.ROOT));
-        labelDescription.setBounds(50, 20, 300, 30);
-        this.add(labelDescription);
-
-        JLabel labelPesel = new JLabel("PESEL number");
-        labelPesel.setBounds(50, 90, 180, 30);
-        this.add(labelPesel);
+        JLabel label = new JLabel("Enter PESEL number of a " + status.toLowerCase(Locale.ROOT));
+        label.setBounds(45, 25, 300, 30);
+        this.add(label);
     }
 
     protected void initTextField() {
         textFieldPesel = new JTextField();
-        textFieldPesel.setBounds(50, 60, 180, 30);
+        textFieldPesel.setBounds(50, 90, 180, 30);
         this.add(textFieldPesel);
 
         textFieldPesel.addActionListener(this);
@@ -55,7 +51,7 @@ public class DialogDeleteCitizen extends JDialog implements ActionListener {
 
     protected void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(80, 140, 100, 50);
+        button.setBounds(90, 140, 100, 50);
         this.add(button);
 
         button.addActionListener(this);

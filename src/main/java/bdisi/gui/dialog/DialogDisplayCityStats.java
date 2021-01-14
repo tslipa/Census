@@ -48,7 +48,7 @@ public class DialogDisplayCityStats extends JDialog implements ActionListener {
 
     private void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(100, 130, 100, 50);
+        button.setBounds(95, 130, 100, 50);
         this.add(button);
 
         button.addActionListener(this);

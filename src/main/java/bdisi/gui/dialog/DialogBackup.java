@@ -24,14 +24,14 @@ public class DialogBackup extends JDialog implements ActionListener {
         initUI();
         initLabel();
         initTextField();
-        initButton();
+        initButtons();
 
         this.setVisible(true);
     }
 
     protected void initUI() {
         this.setTitle("Census [do backup]");
-        this.setSize(450, 320);
+        this.setSize(550, 320);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setModal(true);
@@ -40,54 +40,54 @@ public class DialogBackup extends JDialog implements ActionListener {
 
     protected void initLabel() {
         JLabel labelDescription = new JLabel("Enter path to mysqldump.exe and backup file");
-        labelDescription.setBounds(85, 20, 300, 30);
+        labelDescription.setBounds(125, 35, 300, 30);
         this.add(labelDescription);
 
-        JLabel labelMySqlDump = new JLabel("path to mysqldump");
-        labelMySqlDump.setBounds(50, 110, 180, 30);
+        JLabel labelMySqlDump = new JLabel("Path to mysqldump");
+        labelMySqlDump.setBounds(30, 100, 120, 30);
         this.add(labelMySqlDump);
 
-        JLabel labelBackup = new JLabel("path to backup file");
-        labelBackup.setBounds(50, 190, 180, 30);
+        JLabel labelBackup = new JLabel("Path to backup file");
+        labelBackup.setBounds(30, 150, 120, 30);
         this.add(labelBackup);
     }
 
     protected void initTextField() {
         textFieldMySqlDump = new JTextField();
-        textFieldMySqlDump.setBounds(50, 80, 180, 30);
+        textFieldMySqlDump.setBounds(165, 100, 215, 30);
         this.add(textFieldMySqlDump);
 
         textFieldBackup = new JTextField();
-        textFieldBackup.setBounds(50, 160, 180, 30);
+        textFieldBackup.setBounds(165, 150, 215, 30);
         this.add(textFieldBackup);
-
-
-        textFieldMySqlDump.addActionListener(this);
-        textFieldBackup.addActionListener(this);
     }
 
-    protected void initButton() {
-        okButton = new JButton("OK");
-        okButton.setBounds(150, 220, 100, 50);
-        this.add(okButton);
-
-        mySqlDumpButton = new JButton("browse");
-        mySqlDumpButton.setBounds(250, 80, 120, 30);
+    protected void initButtons() {
+        mySqlDumpButton = new JButton("Browse");
+        mySqlDumpButton.setBounds(410, 100, 100, 30);
         this.add(mySqlDumpButton);
 
-        backupButton = new JButton("browse");
-        backupButton.setBounds(250, 160, 120, 30);
+        backupButton = new JButton("Browse");
+        backupButton.setBounds(410, 150, 100, 30);
         this.add(backupButton);
 
+        okButton = new JButton("OK");
+        okButton.setBounds(220, 220, 100, 50);
+        this.add(okButton);
 
-        okButton.addActionListener(this);
         mySqlDumpButton.addActionListener(this);
         backupButton.addActionListener(this);
+        okButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
+            if (textFieldBackup.getText().equals("") || textFieldMySqlDump.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Choose the paths.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             try {
                 String executeCmd = "\"" + textFieldMySqlDump.getText() + "\" " + " census --complete-insert --result-file=" + textFieldBackup.getText() + " --skip-disable-keys --user=root --password=pepet --host=127.0.0.1 --port=3306";
                 Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
@@ -119,9 +119,5 @@ public class DialogBackup extends JDialog implements ActionListener {
                 textFieldBackup.setText(backupChooser.getSelectedFile().getPath());
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new DialogBackup();
     }
 }
