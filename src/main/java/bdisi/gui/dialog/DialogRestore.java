@@ -12,15 +12,15 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Locale;
 
-public class DialogBackup extends JDialog implements ActionListener {
-    protected JTextField textFieldMySqlDump;
-    protected JTextField textFieldBackup;
+public class DialogRestore extends JDialog implements ActionListener {
+    protected JTextField textFieldMySql;
+    protected JTextField textFieldRestore;
 
     private JButton okButton;
-    private JButton mySqlDumpButton;
-    private JButton backupButton;
+    private JButton mySqlButton;
+    private JButton restoreButton;
 
-    public DialogBackup() {
+    public DialogRestore() {
         initUI();
         initLabel();
         initTextField();
@@ -30,7 +30,7 @@ public class DialogBackup extends JDialog implements ActionListener {
     }
 
     protected void initUI() {
-        this.setTitle("Census [do backup]");
+        this.setTitle("Census [do restore]");
         this.setSize(450, 320);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
@@ -39,11 +39,11 @@ public class DialogBackup extends JDialog implements ActionListener {
     }
 
     protected void initLabel() {
-        JLabel labelDescription = new JLabel("Enter path to mysqldump.exe and backup file");
+        JLabel labelDescription = new JLabel("Enter path to mysql.exe and backup file");
         labelDescription.setBounds(85, 20, 300, 30);
         this.add(labelDescription);
 
-        JLabel labelMySqlDump = new JLabel("path to mysqldump");
+        JLabel labelMySqlDump = new JLabel("path to mysql");
         labelMySqlDump.setBounds(50, 110, 180, 30);
         this.add(labelMySqlDump);
 
@@ -53,17 +53,17 @@ public class DialogBackup extends JDialog implements ActionListener {
     }
 
     protected void initTextField() {
-        textFieldMySqlDump = new JTextField();
-        textFieldMySqlDump.setBounds(50, 80, 180, 30);
-        this.add(textFieldMySqlDump);
+        textFieldMySql = new JTextField();
+        textFieldMySql.setBounds(50, 80, 180, 30);
+        this.add(textFieldMySql);
 
-        textFieldBackup = new JTextField();
-        textFieldBackup.setBounds(50, 160, 180, 30);
-        this.add(textFieldBackup);
+        textFieldRestore = new JTextField();
+        textFieldRestore.setBounds(50, 160, 180, 30);
+        this.add(textFieldRestore);
 
 
-        textFieldMySqlDump.addActionListener(this);
-        textFieldBackup.addActionListener(this);
+        textFieldMySql.addActionListener(this);
+        textFieldRestore.addActionListener(this);
     }
 
     protected void initButton() {
@@ -71,57 +71,57 @@ public class DialogBackup extends JDialog implements ActionListener {
         okButton.setBounds(150, 220, 100, 50);
         this.add(okButton);
 
-        mySqlDumpButton = new JButton("browse");
-        mySqlDumpButton.setBounds(250, 80, 120, 30);
-        this.add(mySqlDumpButton);
+        mySqlButton = new JButton("browse");
+        mySqlButton.setBounds(250, 80, 120, 30);
+        this.add(mySqlButton);
 
-        backupButton = new JButton("browse");
-        backupButton.setBounds(250, 160, 120, 30);
-        this.add(backupButton);
+        restoreButton = new JButton("browse");
+        restoreButton.setBounds(250, 160, 120, 30);
+        this.add(restoreButton);
 
 
         okButton.addActionListener(this);
-        mySqlDumpButton.addActionListener(this);
-        backupButton.addActionListener(this);
+        mySqlButton.addActionListener(this);
+        restoreButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
             try {
-                String executeCmd = "\"" + textFieldMySqlDump.getText() + "\" " + " census --complete-insert --result-file=" + textFieldBackup.getText() + " --skip-disable-keys --user=root --password=pepet --host=127.0.0.1 --port=3306";
+                String executeCmd = "\"" + textFieldMySql.getText() + "\" " + " --database=census --user=root --password=pepet --host=127.0.0.1 --port=3306  < " + textFieldRestore.getText();
                 Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
                 int processComplete = runtimeProcess.waitFor();
 
                 if (processComplete == 0) {
-                    JOptionPane.showMessageDialog(this, "Backup Complete");
+                    JOptionPane.showMessageDialog(this, "Restore Complete");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Backup Failure");
+                    JOptionPane.showMessageDialog(this, "Restore Failure");
                 }
             } catch (IOException | InterruptedException ex) {
                 ex.printStackTrace();
             }
             this.dispose();
-        } else if (e.getSource() == mySqlDumpButton) {
+        } else if (e.getSource() == mySqlButton) {
             JFileChooser mySqlDumpChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(".exe files only", "exe");
             mySqlDumpChooser.setFileFilter(filter);
             int option = mySqlDumpChooser.showSaveDialog(this);
             if (option == JFileChooser.APPROVE_OPTION) {
-                textFieldMySqlDump.setText(mySqlDumpChooser.getSelectedFile().getPath());
+                textFieldMySql.setText(mySqlDumpChooser.getSelectedFile().getPath());
             }
-        } else if (e.getSource() == backupButton) {
+        } else if (e.getSource() == restoreButton) {
             JFileChooser backupChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(".sql files only", "sql");
             backupChooser.setFileFilter(filter);
             int option = backupChooser.showSaveDialog(this);
             if (option == JFileChooser.APPROVE_OPTION) {
-                textFieldBackup.setText(backupChooser.getSelectedFile().getPath());
+                textFieldRestore.setText(backupChooser.getSelectedFile().getPath());
             }
         }
     }
 
     public static void main(String[] args) {
-        new DialogBackup();
+        new DialogRestore();
     }
 }

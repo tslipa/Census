@@ -208,7 +208,7 @@ public class UserWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == changeStatusButton) {
             new DialogChangeStatus(connection);
         } else if (e.getSource() == rollbackButton) {
-            new DialogRollback();
+            new DialogRestore();
         } else if (e.getSource() == backupButton) {
             new DialogBackup();
         }
