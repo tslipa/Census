@@ -4,7 +4,6 @@ import bdisi.gui.dialog.*;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -51,6 +50,18 @@ public class UserWindow extends JFrame implements ActionListener {
                 dispose();
                 break;
         }
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -202,6 +213,4 @@ public class UserWindow extends JFrame implements ActionListener {
             new DialogBackup();
         }
     }
-
-    //TODO: listener close connection
 }

@@ -10,8 +10,7 @@ import java.sql.Types;
 
 public class DialogPrintAnyPersonalData extends JDialog implements ActionListener {
     private final Connection connection;
-
-    private JTextField textFieldPesel;
+    private JTextField textField;
 
     public DialogPrintAnyPersonalData(Connection connection) {
         this.connection = connection;
@@ -34,26 +33,22 @@ public class DialogPrintAnyPersonalData extends JDialog implements ActionListene
     }
 
     protected void initLabel() {
-        JLabel labelDescription = new JLabel("Enter a pesel");
-        labelDescription.setBounds(50, 20, 300, 30);
-        this.add(labelDescription);
-
-        JLabel labelPesel = new JLabel("Pesel");
-        labelPesel.setBounds(50, 90, 180, 30);
-        this.add(labelPesel);
+        JLabel label = new JLabel("Enter the PESEL number");
+        label.setBounds(64, 30, 170, 30);
+        this.add(label);
     }
 
     protected void initTextField() {
-        textFieldPesel = new JTextField();
-        textFieldPesel.setBounds(50, 60, 180, 30);
-        this.add(textFieldPesel);
+        textField = new JTextField();
+        textField.setBounds(50, 80, 200, 30);
+        this.add(textField);
 
-        textFieldPesel.addActionListener(this);
+        textField.addActionListener(this);
     }
 
     protected void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(80, 140, 100, 50);
+        button.setBounds(100, 130, 100, 50);
         this.add(button);
 
         button.addActionListener(this);
@@ -61,7 +56,7 @@ public class DialogPrintAnyPersonalData extends JDialog implements ActionListene
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String pesel = textFieldPesel.getText();
+        String pesel = textField.getText();
 
         JOptionPane.showMessageDialog(this, printPersonalData(pesel));
 

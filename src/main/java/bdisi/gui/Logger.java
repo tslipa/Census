@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class Logger extends JFrame implements ActionListener {
-    private Connection connection = null;
+    private Connection connection;
     private JTextField textFieldLogin;
     private JTextField textFieldPassword;
 
@@ -80,6 +80,8 @@ public class Logger extends JFrame implements ActionListener {
         if (correctData(login, password) == 1) {
             String status = getStatus(login);
             Logger.this.dispose();
+
+            assert status != null;
             UserWindow window = new UserWindow(status, login);
         } else {
             textFieldLogin.setText("");

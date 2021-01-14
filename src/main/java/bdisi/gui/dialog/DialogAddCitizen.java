@@ -10,16 +10,16 @@ import java.sql.Types;
 import java.util.Locale;
 
 public class DialogAddCitizen extends JDialog implements ActionListener {
-    protected final Connection connection;
-    protected JTextField textFieldPesel;
-    protected JTextField textFieldName;
-    protected JTextField textFieldSurname;
-    protected JTextField textFieldPassword;
-    protected JTextField textFieldCity;
-    protected JTextField textFieldStreet;
-    protected JTextField textFieldHouse;
-    protected JTextField textFieldFlat;
-    private String status;
+    private final Connection connection;
+    private final String status;
+    private JTextField textFieldPesel;
+    private JTextField textFieldName;
+    private JTextField textFieldSurname;
+    private JTextField textFieldPassword;
+    private JTextField textFieldCity;
+    private JTextField textFieldStreet;
+    private JTextField textFieldHouse;
+    private JTextField textFieldFlat;
 
     public DialogAddCitizen(Connection connection, String status) {
         this.connection = connection;
@@ -33,7 +33,7 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
         this.setVisible(true);
     }
 
-    protected void initUI() {
+    private void initUI() {
         this.setTitle("Census [add new ]" + status.toLowerCase(Locale.ROOT));
         this.setSize(500, 520);
         this.setLocationRelativeTo(null);
@@ -42,7 +42,7 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
-    protected void initLabel() {
+    private void initLabel() {
         JLabel labelDescription = new JLabel("Enter personal data of the new " + status.toLowerCase(Locale.ROOT));
         labelDescription.setBounds(135, 20, 300, 30);
         this.add(labelDescription);
@@ -80,7 +80,7 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
         this.add(labelFlat);
     }
 
-    protected void initTextField() {
+    private void initTextField() {
         textFieldPesel = new JTextField();
         textFieldPesel.setBounds(50, 80, 180, 30);
         this.add(textFieldPesel);
@@ -123,7 +123,7 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
         textFieldFlat.addActionListener(this);
     }
 
-    protected void initButton() {
+    private void initButton() {
         JButton button = new JButton("OK");
         button.setBounds(200, 410, 100, 50);
         this.add(button);
@@ -173,7 +173,7 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
         }
     }
 
-    protected int addCitizen(String pesel, String password, String name, String surname, String city, String street, int house, int flat) {
+    private int addCitizen(String pesel, String password, String name, String surname, String city, String street, int house, int flat) {
         try {
             CallableStatement cstmt = connection.prepareCall("{CALL addCitizen(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             cstmt.setString(1, pesel);
@@ -184,17 +184,13 @@ public class DialogAddCitizen extends JDialog implements ActionListener {
             cstmt.setString(6, city);
             cstmt.setString(7, street);
             cstmt.setInt(8, house);
-
-            if (flat == 0) {
-                cstmt.setInt(9, 0); //HOW TO PUT A NULL HERE?!
-            } else {
-                cstmt.setInt(9, flat);
-            }
-
+            cstmt.setInt(9, flat);
             cstmt.registerOutParameter(10, Types.INTEGER);
+
             cstmt.execute();
             int result = cstmt.getInt(10);
             cstmt.close();
+
             return result;
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -11,9 +11,9 @@ import java.sql.Types;
 public class DialogChangePassword extends JDialog implements ActionListener {
     private final Connection connection;
     private final String pesel;
-
     private JTextField textFieldOld;
     private JTextField textFieldNew;
+    private JTextField textFieldNewRepeat;
 
     public DialogChangePassword(Connection connection, String pesel) {
         this.connection = connection;
@@ -29,7 +29,7 @@ public class DialogChangePassword extends JDialog implements ActionListener {
 
     protected void initUI() {
         this.setTitle("Census [change password]");
-        this.setSize(300, 300);
+        this.setSize(300, 420);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setModal(true);
@@ -37,35 +37,44 @@ public class DialogChangePassword extends JDialog implements ActionListener {
     }
 
     protected void initLabel() {
-        JLabel labelDescription = new JLabel("Enter new and old passwords");
-        labelDescription.setBounds(50, 20, 300, 30);
+        JLabel labelDescription = new JLabel("Change your password");
+        labelDescription.setBounds(75, 20, 250, 30);
         this.add(labelDescription);
 
-        JLabel labelOld = new JLabel("Old Password");
-        labelOld.setBounds(50, 90, 180, 30);
+        JLabel labelOld = new JLabel("Old password");
+        labelOld.setBounds(50, 110, 180, 30);
         this.add(labelOld);
 
-        JLabel labelNew = new JLabel("New Password");
-        labelNew.setBounds(50, 150, 180, 30);
+        JLabel labelNew = new JLabel("New password");
+        labelNew.setBounds(50, 180, 180, 30);
         this.add(labelNew);
+
+        JLabel labelNewRepeat = new JLabel("Repeat new password");
+        labelNewRepeat.setBounds(50, 250, 180, 30);
+        this.add(labelNewRepeat);
     }
 
     protected void initTextField() {
-        textFieldOld = new JTextField();
-        textFieldOld.setBounds(50, 60, 180, 30);
+        textFieldOld = new JPasswordField();
+        textFieldOld.setBounds(50, 80, 190, 30);
         this.add(textFieldOld);
 
-        textFieldNew = new JTextField();
-        textFieldNew.setBounds(50, 120, 180, 30);
+        textFieldNew = new JPasswordField();
+        textFieldNew.setBounds(50, 150, 190, 30);
         this.add(textFieldNew);
+
+        textFieldNewRepeat = new JPasswordField();
+        textFieldNewRepeat.setBounds(50, 220, 190, 30);
+        this.add(textFieldNewRepeat);
 
         textFieldOld.addActionListener(this);
         textFieldNew.addActionListener(this);
+        textFieldNewRepeat.addActionListener(this);
     }
 
     protected void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(80, 190, 100, 50);
+        button.setBounds(90, 320, 100, 50);
         this.add(button);
 
         button.addActionListener(this);
@@ -75,19 +84,22 @@ public class DialogChangePassword extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String oldPassword = textFieldOld.getText();
         String newPassword = textFieldNew.getText();
+        String newPasswordRepeat = textFieldNewRepeat.getText();
 
-        if (newPassword.length() < 6 || newPassword.length() > 20) {
-            JOptionPane.showMessageDialog(this, "Password should be between 6 and 20 characters!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (changePassword(oldPassword, newPassword)) {
-            JOptionPane.showMessageDialog(this, "Password changed");
+        if (!newPassword.equals(newPasswordRepeat)) {
+            JOptionPane.showMessageDialog(this, "New password is not the same in both fields.");
+        } else if (newPassword.length() < 6 || newPassword.length() > 20) {
+            JOptionPane.showMessageDialog(this, "New password should be between 6 and 20 characters!", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (changePassword(oldPassword, newPassword)) {
+            JOptionPane.showMessageDialog(this, "Password changed.");
+            this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Wrong password!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Wrong old password!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        this.dispose();
+        textFieldOld.setText("");
+        textFieldNew.setText("");
+        textFieldNewRepeat.setText("");
     }
 
     private boolean changePassword(String oldPassword, String newPassword) {

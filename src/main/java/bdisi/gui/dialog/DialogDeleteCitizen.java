@@ -11,8 +11,7 @@ import java.util.Locale;
 
 public class DialogDeleteCitizen extends JDialog implements ActionListener {
     private final Connection connection;
-    private String status;
-
+    private final String status;
     private JTextField textFieldPesel;
 
     public DialogDeleteCitizen(Connection connection, String status) {
