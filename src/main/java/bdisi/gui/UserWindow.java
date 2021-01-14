@@ -4,6 +4,7 @@ import bdisi.gui.dialog.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -196,9 +197,9 @@ public class UserWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == changeStatusButton) {
             new DialogChangeStatus(connection);
         } else if (e.getSource() == rollbackButton) {
-            // new DialogRollback(connection);
+            new DialogRollback();
         } else if (e.getSource() == backupButton) {
-            // new DialogBackup(connection);
+            new DialogBackup();
         }
     }
 
