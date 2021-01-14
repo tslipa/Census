@@ -95,9 +95,11 @@ public class DialogRestore extends JDialog implements ActionListener {
                 FileOutputStream fos = new FileOutputStream(f);
                 fos.write(comando.getBytes());
                 fos.close();
-                Process runtimeProcess = Runtime.getRuntime().exec("cmd /C start restore.bat ");
 
+
+                Process runtimeProcess = Runtime.getRuntime().exec("cmd /C start restore.bat");
                 int processComplete = runtimeProcess.waitFor();
+                Runtime.getRuntime().exec("taskkill /IM cmd.exe");
 
                 if (processComplete == 0) {
                     JOptionPane.showMessageDialog(this, "Restore Complete");
