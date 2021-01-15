@@ -116,8 +116,22 @@ public class DialogBackup extends JDialog implements ActionListener {
             backupChooser.setFileFilter(filter);
             int option = backupChooser.showSaveDialog(this);
             if (option == JFileChooser.APPROVE_OPTION) {
-                textFieldBackup.setText(backupChooser.getSelectedFile().getPath());
+                String path = backupChooser.getSelectedFile().getPath();
+                path = path + sqlExtAdd(path);
+                textFieldBackup.setText(path);
             }
         }
+    }
+
+    private String sqlExtAdd(String name) {
+        System.out.println(name);
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ".sql";
+        }
+        if (!(name.substring(lastIndexOf)).equals(".sql")) {
+            return ".sql";
+        }
+        return "";
     }
 }
