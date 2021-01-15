@@ -86,7 +86,12 @@ public class RandomAdder {
             String pesel = randomPesel();
             cstmt.setString(1, pesel);
             cstmt.setString(2, randomPassword());
-            cstmt.setString(3, "Citizen");
+            Double isBureaucrat = generator.nextDouble();
+            String status = "Citizen";
+            if (isBureaucrat < 0.05) {
+                status = "Bureaucrat";
+            }
+            cstmt.setString(3, status);
             cstmt.setString(4, randomName(pesel));
             cstmt.setString(5, randomSurname());
             cstmt.setString(6, randomCity());
