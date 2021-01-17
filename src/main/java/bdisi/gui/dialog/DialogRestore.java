@@ -90,16 +90,14 @@ public class DialogRestore extends JDialog implements ActionListener {
             }
 
             try {
-                String comando = "\"" + textFieldMySql.getText() + "\" " + " --database=census --user=root --password=pepet --host=127.0.0.1 --port=3306  < " + textFieldRestore.getText();
+                String command = "\"" + textFieldMySql.getText() + "\" " + " --database=census --user=root --password=pepet --host=127.0.0.1 --port=3306  < " + textFieldRestore.getText();
                 File f = new File("restore.bat");
                 FileOutputStream fos = new FileOutputStream(f);
-                fos.write(comando.getBytes());
+                fos.write(command.getBytes());
                 fos.close();
-
 
                 Process runtimeProcess = Runtime.getRuntime().exec("cmd /C start restore.bat");
                 int processComplete = runtimeProcess.waitFor();
-                Runtime.getRuntime().exec("taskkill /IM cmd.exe");
 
                 if (processComplete == 0) {
                     JOptionPane.showMessageDialog(this, "Restore Complete");
